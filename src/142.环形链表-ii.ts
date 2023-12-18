@@ -86,7 +86,24 @@
  */
 // https://programmercarl.com/0142.%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8II.html#%E6%80%9D%E8%B7%AF
 function detectCycle(head: ListNode | null): ListNode | null {
-    
+  let slow = head;
+  let fast = head;
+  while (slow !== null && fast !== null) {
+    // slow 1step, fast 2step
+    slow = slow?.next;
+    fast = fast?.next?.next as (ListNode | null);
+    if (slow === fast) {
+      let index1 = head;
+      let index2 = slow;
+      // x == z
+      while (index1 !== index2) {
+        index1 = index1!.next;
+        index2 = index2!.next;
+      }
+      return index1;
+    }
+  }
+  return null;
 };
 // @lc code=end
 
