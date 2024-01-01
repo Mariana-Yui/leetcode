@@ -95,9 +95,21 @@ function preorderTraversal(root: TreeNode | null): number[] {
   // return vec;
 
   const stack: TreeNode[] = [];
+  const result: number[] = [];
+  root !== null && stack.push(root);
   while (stack.length) {
-    
+    let cur = stack.pop();
+    if (cur !== null) {
+      cur.right !== null && stack.push(cur.right);
+      cur.left !== null && stack.push(cur.left);
+      stack.push(cur);
+      stack.push(null);
+    } else {
+      cur = stack.pop();
+      result.push(cur.val);
+    }
   }
+  return result;
 };
 // @lc code=end
 
