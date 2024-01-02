@@ -69,15 +69,48 @@
  */
 
 function inorderTraversal(root: TreeNode | null): number[] {
-  function traversal(root: TreeNode | null, vec: number[]): void {
-    if (root === null) return;
-    traversal(root.left, vec);
-    vec.push(root.val);
-    traversal(root.right, vec);
+  /** 递归法 */
+  // function traversal(root: TreeNode | null, vec: number[]): void {
+  //   if (root === null) return;
+  //   traversal(root.left, vec);
+  //   vec.push(root.val);
+  //   traversal(root.right, vec);
+  // }
+  // const vec: number[] = [];
+  // traversal(root, vec);
+  // return vec;
+
+  /** 迭代法 */
+  // const stack: TreeNode[] = [];
+  // const result: number[] = [];
+  // let cur = root;
+  // while (cur !== null || stack.length) {
+  //   if (cur !== null) {
+  //     stack.push(cur);
+  //     cur = cur.left;
+  //   } else {
+  //     cur = stack.pop();
+  //     result.push(cur.val);
+  //     cur = cur.right;
+  //   }
+  // }
+  // return result;
+  const stack: Array<TreeNode|null> = [];
+  const result: number[] = [];
+  if (root !== null) stack.push(root);
+  while (stack.length) {
+    let cur = stack.pop();
+    if (cur !== null) {
+      if (cur.right !== null) stack.push(cur.right);
+      stack.push(cur);
+      stack.push(null);
+      if (cur.left !== null) stack.push(cur.left);
+    } else {
+      cur = stack.pop();
+      result.push(cur.val);
+    }
   }
-  const vec: number[] = [];
-  traversal(root, vec);
-  return vec;
+  return result;
 };
 // @lc code=end
 

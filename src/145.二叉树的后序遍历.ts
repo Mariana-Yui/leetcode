@@ -69,15 +69,32 @@
  */
 
 function postorderTraversal(root: TreeNode | null): number[] {
-  function traversal(root: TreeNode | null, vec: number[]): void {
-    if (root === null) return;
-    traversal(root.left, vec);
-    traversal(root.right, vec);
-    vec.push(root.val);
+  /** 递归法 */
+  // function traversal(root: TreeNode | null, vec: number[]): void {
+  //   if (root === null) return;
+  //   traversal(root.left, vec);
+  //   traversal(root.right, vec);
+  //   vec.push(root.val);
+  // }
+  // const vec: number[] = [];
+  // traversal(root, vec);
+  // return vec;
+
+  /** 迭代法 */
+  // 后序遍历实际上就是前序遍历的变种: 前序遍历为 中左右, 后序遍历可通过前序遍历调整左右顺序 -> 中右左 -> 数组反转 左右中 即后序遍历
+  const stack: TreeNode[] = [];
+  const result: number[] = [];
+  let cur = root;
+  while (cur !== null || stack.length) {
+    if (cur !== null) {
+      result.push(cur.val);
+      stack.push(cur.left);
+      cur = cur.right;
+    } else {
+      cur = stack.pop();
+    }
   }
-  const vec: number[] = [];
-  traversal(root, vec);
-  return vec;
+  return result.reverse();
 };
 // @lc code=end
 

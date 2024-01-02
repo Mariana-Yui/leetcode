@@ -94,6 +94,21 @@ function preorderTraversal(root: TreeNode | null): number[] {
   // traversal(root, vec);
   // return vec;
 
+  /** 迭代法 */
+  // const stack: TreeNode[] = [];
+  // const result: number[] = [];
+  // let cur = root;
+  // while (cur !== null || stack.length) {
+  //   if (cur !== null) {
+  //     result.push(cur.val);
+  //     stack.push(cur.right);
+  //     cur = cur.left;
+  //   } else {
+  //     cur = stack.pop();
+  //   }
+  // }
+
+  /** 统一写法(迭代法) */
   const stack: TreeNode[] = [];
   const result: number[] = [];
   root !== null && stack.push(root);
@@ -109,6 +124,7 @@ function preorderTraversal(root: TreeNode | null): number[] {
       result.push(cur.val);
     }
   }
+  
   return result;
 };
 // @lc code=end
