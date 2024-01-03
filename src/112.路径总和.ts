@@ -74,28 +74,47 @@
  */
 
 function hasPathSum(root: TreeNode | null, targetSum: number): boolean {
+  /** 递归法, 累加的方式 */
   const paths: number[] = [];
-  function hasSum(node: TreeNode | null): boolean {
-    if (node === null) return false;
-    paths.push(node.val);
-    if (node.left === null && node.right === null) {
-      let sum = 0;
-      for (let i = 0; i < paths.length; i++) {
-        sum += paths[i];
-      }
-      return targetSum === sum;
-    }
-    let leftHasSum: boolean = false, rightHasSum: boolean = false;
+  function hasSum(node: TreeNode | null, result: number): boolean {
+    if (node.left === null && node.right === null && targetSum === result) return true;
+    let leftHasSum = false,
+      rightHasSum = false;
     if (node.left) {
-      leftHasSum = hasSum(node.left);
-      paths.pop();
+      result += node.left.val;
+      leftHasSum = hasSum(node.left, result);
+      result -= node.left.val;
     }
     if (node.right) {
-      rightHasSum = hasSum(node.right);
-      paths.pop();
+      result += node.right.val;
+      rightHasSum = hasSum(node.right, result);
+      result -= node.right.val;
     }
     return leftHasSum || rightHasSum;
   }
-  return hasSum(root);
+  if (root === null) return false;
+  return hasSum(root, root.val);
+
+  /** 递归法, 累减 */
+  // function hasSum(node: TreeNode | null, result: number): boolean {
+  //   if (node.left === null && node.right === null && result === 0) return true;
+  //   if (node.left === null && node.right === null) return false;
+  //   let leftHasSum = false,
+  //     rightHasSum = false;
+  //   if (node.left) {
+  //     result -= node.left.val;
+  //     leftHasSum = hasSum(node.left, result);
+  //     result += node.left.val; //回溯
+  //   }
+  //   if (node.right) {
+  //     result -= node.right.val;
+  //     rightHasSum = hasSum(node.right, result);
+  //     result += node.right.val;
+  //   }
+  //   return leftHasSum || rightHasSum;
+  // }
+  // if (root === null) return false; // 根节点
+  // // 回溯不包括根节点, 传参要先 - 根节点的值
+  // return hasSum(root, targetSum - root.val);
 }
 // @lc code=end
