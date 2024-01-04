@@ -90,12 +90,13 @@ function findMode(root: TreeNode | null): number[] {
         count = 1;
       }
     }
+    if (count === maxCount) {
+      result.push(node.val); // 多个频率相同
+    }
     if (count > maxCount) {
       maxCount = count;
       result.length = 0; // 先清空
       result.push(node.val);
-    } else if (count === maxCount) {
-      result.push(node.val); // 多个频率相同
     }
     pre = node;
     /** 中 */
