@@ -96,6 +96,7 @@ function deleteNode(root: TreeNode | null, key: number): TreeNode | null {
    * 5. 找到节点, 节点有左右节点, 用右节点替代当前节点, 将左节点作为右节点的左子树的最左边左节点的左节点
    */
   // 前四种情况很好理解, 第五种情况我们知道二叉搜索树中序遍历结果是递增的, 那么删除中间的节点后, 左节点的移动位置就如上所述
+  // 这里第五种情况不能通过pre去记录, 因为会return递归会被截断
   // function traversal(node: TreeNode | null, key: number): TreeNode | null {
   //   if (node === null) return null;
   //   if (node.val === key) {
@@ -118,19 +119,37 @@ function deleteNode(root: TreeNode | null, key: number): TreeNode | null {
   // }
   // return traversal(root, key);
 
-  /** 迭代法, 思路一致 */
-  function deleteOneNode(pre: TreeNode) {}
-  let pre: TreeNode|null = null;
-  let cur: TreeNode|null = root;
-  while (cur !== null) {
-    pre = cur;
-    if (key < cur.val) {
-      cur = cur.left;
-    } else if (key > cur.val) {
-      cur = cur.right;
-    } else {
-      break;
+  /** 迭代法, 思路和递归法一致 */
+  function deleteOneNode(cur: TreeNode | null): TreeNode | null {
+    if (cur === null) return null;
+    else if (cur.left === null && cur.right === null) return null;
+    else if (cur.left === null && cur.right !== null) return cur.right;
+    else if (cur.left !== null && cur.right === null) return cur.left;
+    else {
+      let node = cur.right;
+      while (node.left !== null) {
+        node = node.left;
+      }
+      node.left = cur.left;
+      return cur.right;
     }
   }
+  let pre: TreeNode | null = null;
+  let cur: TreeNode | null = root;
+  while (cur !== null) {
+    if (cur.val === key) break;
+    pre = cur;
+    if (key < cur.val) cur = cur.left;
+    else cur = cur.right;
+  }
+  if (pre === null) {
+    return deleteOneNode(cur);
+  }
+  if (pre.left && pre.left.val === key) {
+    pre.left = deleteOneNode(cur);
+  } else if (pre.right && pre.right.val === key) {
+    pre.right = deleteOneNode(cur);
+  }
+  return root;
 }
 // @lc code=end
