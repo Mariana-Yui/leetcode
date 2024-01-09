@@ -68,7 +68,7 @@ function subsetsWithDup(nums: number[]): number[][] {
 
   const result: number[][] = [];
   const path: number[] = [];
-  nums.sort();
+  nums.sort((a, b) => a - b);
   backtracking(nums, 0);
   return result;
 }

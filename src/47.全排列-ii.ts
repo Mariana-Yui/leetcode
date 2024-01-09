@@ -77,7 +77,7 @@ function permuteUnique(nums: number[]): number[][] {
 
   const result: number[][] = [];
   const path: number[] = [];
-  nums.sort(); // 先排序
+  nums.sort((a, b) => a - b); // 先排序
   backtracking(nums, new Array(nums.length).fill(false));
   return result;
 }
