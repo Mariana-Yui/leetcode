@@ -44,16 +44,32 @@
 
 // @lc code=start
 function canPartitionKSubsets(nums: number[], k: number): boolean {
-  // 回溯 回溯本质是暴力穷举所以不适用数量过大的集合, 例如416.分割等和子集
-  // 题干的区间用回溯是合适的
-  function backtracking(nums: number[], sum: number, startIndex: number): boolean {
-    if (sum === quarterSum) return true;
-    for (let i = 0; i < nums.length; i++) {
-      if (backtracking(nums, sum + nums[i], i + 1)) return true;
+  /** 回溯法如果剪枝不够精确会超时, 看题解说用状态压缩+动态规划, 看不懂..先做个标记 */
+  /**
+   * 把问题抽象为将nums.length个球放入k个桶中
+   * 每个球都能选择放入任意一个桶, 就转化为k叉树查找路径问题
+   * 存在三个剪枝操作:
+   * 1. 当第k个桶里的值+要放进去的球值>target时可以跳过
+   * 2. 先将nums降序排序, 这要能保证更快地触发1.的剪枝
+   * 3. 如果两个桶的值相同可以直接跳过, 直接放到第i-1个桶 !!这是非常关键的剪枝操作, 否则会超时
+   */
+
+  function backtracking(nums: number[], startIndex: number): boolean {
+    // !! 很巧妙的结束条件
+    if (startIndex === nums.length) return true;
+    for (let i = 0; i < k; i++) {
+      if (i > 0 && bucket[i] === bucket[i - 1]) continue; // 剪枝3
+      if (bucket[i] + nums[startIndex] > target) continue; // 剪枝1
+      bucket[i] += nums[startIndex];
+      if (backtracking(nums, startIndex + 1)) return true;
+      bucket[i] -= nums[startIndex];
     }
     return false;
   }
-  const quarterSum = nums.reduce((p, c) => p + c, 0);
-  return backtracking(nums, 0, 0);
+  const target = nums.reduce((p, c) => p + c, 0) / k;
+  if (~~target !== target) return false;
+  nums.sort((a, b) => b - a); // 剪枝2
+  const bucket = new Array(k).fill(0);
+  return backtracking(nums, 0);
 }
 // @lc code=end

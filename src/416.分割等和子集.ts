@@ -47,14 +47,23 @@
 function canPartition(nums: number[]): boolean {
   /** 回溯 暴力穷举找到一个子集之和为sum/2即可判断存在 */
   /** 可以是可以 但是会超时:P */
-  // function backtracking(nums: number[], sum: number, startIndex: number): boolean {
-  //   if (sum === halfSum) return true;
-  //   for (let i = startIndex; i < nums.length - 1; i++) {
-  //     if (backtracking(nums, sum + nums[i], i + 1)) return true;
+  // function backtracking(nums: number[], startIndex: number): boolean {
+  //   if (startIndex === nums.length) return true;
+  //   for (let i = 0; i < 2; i++) {
+  //     if (i > 0 && buckets[i] === buckets[i - 1]) continue;
+  //     if (buckets[i] + nums[startIndex] > target) continue;
+  //     buckets[i] += nums[startIndex];
+  //     if (backtracking(nums, startIndex + 1)) return true;
+  //     buckets[i] -= nums[startIndex];
   //   }
   //   return false;
   // }
-  // const halfSum = nums.reduce((p, c) => p + c, 0) / 2;
-  // return backtracking(nums, 0, 0);
+
+  // // 计算出边长
+  // const target = nums.reduce((p, c) => p + c, 0) / 2;
+  // if (~~target !== target) return false;
+  // const buckets: number[] = new Array(2).fill(0);
+  // nums.sort((a, b) => b - a);
+  // return backtracking(nums, 0);
 }
 // @lc code=end
