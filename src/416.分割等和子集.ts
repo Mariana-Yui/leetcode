@@ -65,5 +65,13 @@ function canPartition(nums: number[]): boolean {
   // const buckets: number[] = new Array(2).fill(0);
   // nums.sort((a, b) => b - a);
   // return backtracking(nums, 0);
+
+  /** DP */
+  /**
+   * 分析题干关键词 二分集合 等和
+   * 两个集合, 对于任一集合而言, 任意一个数要么放进集合要么不放进集合, 不存在永远(不)放入集合的场景
+   * 可以抽象成01背包问题, 背包大小为sum/2, 每个数是一个物品, 重量为数值, 价值也为数值
+   */
+  
 }
 // @lc code=end
