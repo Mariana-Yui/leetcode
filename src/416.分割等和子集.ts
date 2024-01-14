@@ -37,8 +37,8 @@
  * 提示：
  *
  *
- * 1
- * 1
+ * 1 <= nums.length <= 200
+ * 1 <= nums[i] <= 100
  *
  *
  */
@@ -59,7 +59,6 @@ function canPartition(nums: number[]): boolean {
   //   return false;
   // }
 
-  // // 计算出边长
   // const target = nums.reduce((p, c) => p + c, 0) / 2;
   // if (~~target !== target) return false;
   // const buckets: number[] = new Array(2).fill(0);
@@ -72,6 +71,18 @@ function canPartition(nums: number[]): boolean {
    * 两个集合, 对于任一集合而言, 任意一个数要么放进集合要么不放进集合, 不存在永远(不)放入集合的场景
    * 可以抽象成01背包问题, 背包大小为sum/2, 每个数是一个物品, 重量为数值, 价值也为数值
    */
-  
+  const target = nums.reduce((p, c) => p + c, 0) / 2;
+  if (~~target !== target) return false;
+  // 这里直接用一维数组
+  const dp: number[] = new Array(target + 1).fill(0); // 题干正整数, 所以初始化为0
+  const weigets = nums;
+  const values = nums;
+  for (let i = 0; i < nums.length; i++) {
+    for (let j = target; j >= weigets[i]; j--) {
+      dp[j] = Math.max(dp[j], dp[j - weigets[i]] + values[i]);
+      if (dp[target] === target) return true;
+    }
+  }
+  return false;
 }
 // @lc code=end
