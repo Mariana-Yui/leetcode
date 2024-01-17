@@ -77,9 +77,9 @@ function change(amount: number, coins: number[]): number {
   for (let i = 0; i < coins.length; i++) {
     for (let j = coins[i]; j < dp.length; j++) {
       dp[j] += dp[j - coins[i]];
-      console.log(`dp: ${dp}, i: ${i}, j: ${j}, dp[j]: ${dp[j]}, coins[i]: ${coins[i]}`);
     }
   }
+  /** 排列数 */
   // for (let j = 0; j < dp.length; j++) {
   //   for (let i = 0; i < coins.length; i++) {
   //     if (j - coins[i] >= 0) {
@@ -90,5 +90,4 @@ function change(amount: number, coins: number[]): number {
   // }
   return dp[amount];
 }
-console.log(change(5, [1, 2, 5]));
 // @lc code=end
