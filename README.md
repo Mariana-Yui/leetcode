@@ -105,3 +105,12 @@ DP 五部曲:
 问装满背包有几种方法：dp[j] += dp[j - nums[i]]
 背包装满最大价值：dp[j] = max(dp[j], dp[j - weight[i]] + value[i])
 装满背包所有物品的最小个数：dp[j] = min(dp[j - coins[i]] + 1, dp[j])
+
+股票买卖问题
+贪心: 
+```js
+min = Math.min(min, price[i])
+max = Math.max(max, price[i] - min) 
+```
+动态规划:
+考虑股票第i天持有和不持有两种情况
