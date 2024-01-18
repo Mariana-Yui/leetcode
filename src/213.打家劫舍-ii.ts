@@ -63,7 +63,10 @@ function rob(nums: number[]): number {
    * 2. 考虑尾部, 不考虑首部
    * 两者取最大值
    */
-  function robRange(nums: number[], start: number, end: number): number {
+  const exceptLast = robRange(nums.slice(0, nums.length - 1));
+  const exceptFirst = robRange(nums.slice(1, nums.length));
+
+  function robRange(nums: number[]): number {
     const dp = new Array(nums.length).fill(0);
     dp[0] = nums[0];
     dp[1] = Math.max(nums[0], nums[1]);
@@ -72,5 +75,9 @@ function rob(nums: number[]): number {
     }
     return dp[nums.length - 1];
   }
+
+  if (nums.length === 0) return 0;
+  if (nums.length === 1) return nums[0];
+  return Math.max(exceptFirst, exceptLast);
 }
 // @lc code=end
