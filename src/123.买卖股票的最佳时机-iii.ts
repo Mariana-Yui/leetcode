@@ -78,9 +78,13 @@ function maxProfit(prices: number[]): number {
   const dp: number[][] = new Array(prices.length);
   for (let i = 0; i < dp.length; i++) dp[i] = new Array(5).fill(0);
   dp[0] = [0, -prices[0], 0, -prices[0], 0];
-  for (let i=1; i<dp.length; i++) {
-    dp[i][0] = dp[i-1][0];
-    dp[i][1] = Math.max(dp)
+  for (let i = 1; i < dp.length; i++) {
+    dp[i][0] = dp[i - 1][0];
+    dp[i][1] = Math.max(-prices[i], dp[i - 1][1]);
+    dp[i][2] = Math.max(dp[i - 1][1] + prices[i], dp[i - 1][2]);
+    dp[i][3] = Math.max(dp[i - 1][2] - prices[i], dp[i - 1][3]);
+    dp[i][4] = Math.max(dp[i - 1][3] + prices[i], dp[i - 1][4]);
   }
+  return dp[prices.length - 1][4];
 }
 // @lc code=end

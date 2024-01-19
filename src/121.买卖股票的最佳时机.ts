@@ -77,7 +77,35 @@ function maxProfit(prices: number[]): number {
     dp[i][0] = Math.max(-prices[i], dp[i - 1][0]);
     dp[i][1] = Math.max(dp[i - 1][0] + prices[i], dp[i - 1][1]);
   }
-  return dp[prices.length-1][1];
+  return dp[prices.length - 1][1];
+
+  // 优化 滚动数组 因为第i天只依赖第i-1天 所以只需要2*2的二维数组
+  // const dp: number[][] = [
+  //   [-prices[0], 0],
+  //   [0, 0]
+  // ];
+  // for (let i = 1; i < prices.length; i++) {
+  //   dp[i % 2][0] = Math.max(dp[(i - 1) % 2][0], -prices[i]);
+  //   dp[i % 2][1] = Math.max(dp[(i - 1) % 2][0] + prices[i], dp[(i - 1) % 2][1]);
+  // }
+  // return dp[(prices.length - 1) % 2][1];
+
+  // 再优化 一维滚动数组 这里非常难理解 真要是写还是推荐上面两种写法..
+  /**
+   * 首先dp是长度为2的一维数组表示[持有时的最大金额, 不持有时的最大金额]
+   * dp[0]很好理解 保持前一天持有和当天买入的最大值
+   * dp[1] = max{dp[0] + price[i], dp[1]}用到了当天的dp[0]
+   * 分两种情况讨论:
+   * 1. dp[0]为保持前一天持有即 dp[0], 那么dp[0]+price[i]表示当天卖出, dp[1]则和定义的相同 保持前一天卖出和当天卖出的最大值
+   * 2. dp[0]为当天买入即 -prices[i], 那么dp[0]+price[i]表示当天买入再卖出, 即没有操作;
+   * 既然是当天买入的, 那么dp[1]就必不可能操作, 不然没挣钱啊所以这时候dp[1]保持前一天不持有的状态
+   * 理解的关键: 当天买入处于持有状态时, 不持有状态一定是前一天的不持有状态
+   */
+  // const dp = [-prices[0], 0];
+  // for (let i = 1; i < prices.length; i++) {
+  //   dp[0] = Math.max(-prices[i], dp[0]);
+  //   dp[1] = Math.max(dp[0] + prices[i], dp[1]);
+  // }
+  // return dp[1];
 }
-maxProfit([7, 1, 5, 3, 6, 4]);
 // @lc code=end

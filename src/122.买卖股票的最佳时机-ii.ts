@@ -79,5 +79,16 @@ function maxProfit(prices: number[]): number {
     dp[i][1] = Math.max(dp[i - 1][0] + prices[i], dp[i - 1][1]);
   }
   return dp[dp.length - 1][1];
+
+  // 优化 滚动数组
+  // const dp: number[][] = [
+  //   [-prices[0], 0],
+  //   [0, 0]
+  // ];
+  // for (let i = 1; i < prices.length; i++) {
+  //   dp[i % 2][0] = Math.max(dp[(i - 1) % 2][0], dp[(i - 1) % 2][1] - prices[i]);
+  //   dp[i % 2][1] = Math.max(dp[(i - 1) % 2][1], dp[(i - 1) % 2][0] + prices[i]);
+  // }
+  // return dp[(prices.length - 1) % 2][1];
 }
 // @lc code=end
