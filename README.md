@@ -122,3 +122,5 @@ max = Math.max(max, price[i] - min)
 考虑股票第i天持有和不持有两种情况
 持有分为买入和继续持有两种情况
 不持有分为卖出和已经买入两种情况
+
+![股票问题总结](https://dev.azure.com/HealMSlin/8544be09-1224-4eb0-824b-90c4ec9d49ee/_apis/git/repositories/7a27a721-4c93-4ecf-8258-d5422217b60a/items?path=%2F1705770779443_4382.png&versionDescriptor%5BversionOptions%5D=0&versionDescriptor%5BversionType%5D=0&versionDescriptor%5Bversion%5D=master&resolveLfs=true&%24format=octetStream&api-version=5.0)
