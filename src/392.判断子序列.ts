@@ -57,11 +57,29 @@
 
 // @lc code=start
 function isSubsequence(s: string, t: string): boolean {
-  if (!s.length && !t.length) return true;
-  for (let i = 0, j = 0; i < t.length; i++) {
-    if (s[j] === t[i]) j++;
-    if (j === s.length) return true;
+  // 双指针法
+  // if (!s.length && !t.length) return true;
+  // for (let i = 0, j = 0; i < t.length; i++) {
+  //   if (s[j] === t[i]) j++;
+  //   if (j === s.length) return true;
+  // }
+  // return false;
+
+  // DP 和1143.类似 其中一个子串是连续序列不能删除
+  const dp: number[][] = new Array(t.length + 1);
+  let result = 0;
+  for (let i = 0; i <= t.length; i++) dp[i] = new Array(s.length + 1).fill(0);
+  dp[0][0] = 0;
+  for (let i = 1; i <= t.length; i++) {
+    for (let j = 1; j <= s.length; j++) {
+      if (t[i - 1] === s[j - 1]) {
+        dp[i][j] = dp[i - 1][j - 1] + 1;
+      } else {
+        dp[i][j] = dp[i - 1][j]; // 因为问的是t的子序列能否匹配到s, 所以s是不能继承的, 否则这里就是Math.max(dp[i-1][j], dp[i][j-1])
+      }
+      result = Math.max(result, dp[i][j]);
+    }
   }
-  return false;
+  return result === s.length;
 }
 // @lc code=end
