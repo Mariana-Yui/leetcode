@@ -58,13 +58,29 @@
 
 // @lc code=start
 function maxSubArray(nums: number[]): number {
-  // 局部最优: 累加到当前值不为负数, 负数则直接从新开始 整体最优: 取最大值
-  let count = 0;
-  let result = Number.MIN_SAFE_INTEGER;
-  for (let i = 0; i < nums.length; i++) {
-    count += nums[i];
-    if (result < count) result = count;
-    if (count < 0) count = 0;
+  // 贪心 局部最优: 累加到当前值不为负数, 负数则直接从新开始 整体最优: 取最大值
+  // let count = 0;
+  // let result = Number.MIN_SAFE_INTEGER;
+  // for (let i = 0; i < nums.length; i++) {
+  //   count += nums[i];
+  //   if (result < count) result = count;
+  //   if (count < 0) count = 0;
+  // }
+  // return result;
+
+  // DP
+  /**
+   * 1.dp[i]定义: 以i结尾的最大子序列和
+   * 2.dp递推公式: 如果dp[i-1]<0那么应该直接忽略, 所以 dp[i] = max{dp[i-1]+nums[i], nums[i]}
+   * 3.dp初始化: dp[0] = nums[0]
+   * 4. 遍历: 从前往后
+   */
+  const dp: number[] = new Array(nums.length).fill(0);
+  dp[0] = nums[0];
+  let result = dp[0];
+  for (let i = 1; i < dp.length; i++) {
+    dp[i] = Math.max(dp[i - 1] + nums[i], nums[i]);
+    result = Math.max(result, dp[i]);
   }
   return result;
 }
