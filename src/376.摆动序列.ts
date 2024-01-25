@@ -80,19 +80,36 @@ function wiggleMaxLength(nums: number[]): number {
    * 4. 首尾两端统计 初始化result=1记录尾节点, 因为遍历到最后一个节点时就没有i+1能够计算curDiff
    * 初始化preDiff=0相当于将[2,5]扩展为[2,2,5], 就能够进入判断分支, 否则需要三个节点才能判断
    */
-  let preDiff = 0;
-  let curDiff = 0;
-  let result = 1; // 默认记录尾节点为峰值, 遍历完摆动序列都不满足条件结果也就是1个峰值
-  for (let i = 0; i < nums.length; i++) {
-    curDiff = nums[i + 1] - nums[i];
-    // situation 1,2,4 平坡时curDiff=0不会进入分支
-    if ((preDiff >= 0 && curDiff < 0) || (preDiff <= 0 && curDiff > 0)) {
-      result++;
-      preDiff = curDiff; // situaion 3
-    }
-    // preDiff = curDiff; 不符合situation 3
-  }
+  // let preDiff = 0;
+  // let curDiff = 0;
+  // let result = 1; // 默认记录尾节点为峰值, 遍历完摆动序列都不满足条件结果也就是1个峰值
+  // for (let i = 0; i < nums.length; i++) {
+  //   curDiff = nums[i + 1] - nums[i];
+  //   // situation 1,2,4 平坡时curDiff=0不会进入分支
+  //   if ((preDiff >= 0 && curDiff < 0) || (preDiff <= 0 && curDiff > 0)) {
+  //     result++;
+  //     preDiff = curDiff; // situaion 3
+  //   }
+  //   // preDiff = curDiff; 不符合situation 3
+  // }
 
-  return result;
+  // return result;
+
+  // DP
+  /**
+   * dp[i][0] 第i个数作为波峰的最长摆动序列
+   * dp[i][1] 第i个数作为波谷的最长摆动序列
+   */
+  const dp: number[][] = new Array(nums.length);
+  for (let i = 0; i < dp.length; i++) dp[i] = new Array(2).fill(0);
+  dp[0][0] = dp[0][1] = 1;
+  for (let i = 0; i < nums.length; i++) {
+    dp[i][0] = dp[i][1] = 1;
+    for (let j = 0; j < i; j++) {
+      if (nums[j] > nums[i]) dp[i][1] = Math.max(dp[i][1], dp[j][0] + 1);
+      else if (nums[j] < nums[i]) dp[i][0] = Math.max(dp[i][0], dp[j][1] + 1);
+    }
+  }
+  return Math.max(dp[nums.length - 1][0], dp[nums.length - 1][1]);
 }
 // @lc code=end
