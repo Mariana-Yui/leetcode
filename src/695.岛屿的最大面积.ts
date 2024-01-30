@@ -89,5 +89,36 @@ function maxAreaOfIsland(grid: number[][]): number {
   // return result;
 
   // breadth - first search
+  function bfs(grid: number[][]): void {
+    while (queue.length) {
+      const [x, y] = queue.shift();
+      for (let i = 0; i < 4; i++) {
+        const nextx = x + dir[i][0];
+        const nexty = y + dir[i][1];
+        if (nextx < 0 || nextx >= grid.length || nexty < 0 || nexty >= grid[0].length) continue;
+        if (!visited[nextx][nexty] && grid[nextx][nexty] === 1) {
+          visited[nextx][nexty] = true;
+          count++;
+          queue.push([nextx, nexty]);
+        }
+      }
+    }
+  }
+  let result = 0;
+  let count = 0;
+  const queue: number[][] = [];
+  const visited = Array.from({ length: grid.length }, () => new Array(grid[0].length).fill(false));
+  for (let i = 0; i < grid.length; i++) {
+    for (let j = 0; j < grid[0].length; j++) {
+      if (!visited[i][j] && grid[i][j] === 1) {
+        count = 1;
+        visited[i][j] = true;
+        queue.push([i, j]);
+        bfs(grid);
+        result = Math.max(result, count);
+      }
+    }
+  }
+  return result;
 }
 // @lc code=end
