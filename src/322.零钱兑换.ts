@@ -60,9 +60,9 @@ function coinChange(coins: number[], amount: number): number {
   for (let i = 0; i < coins.length; i++) {
     for (let j = coins[i]; j < dp.length; j++) {
       // if用于过滤无法装满背包的数
-      if (j - coins[i] !== Number.MAX_SAFE_INTEGER) {
+      // if (j - coins[i] !== Number.MAX_SAFE_INTEGER) {
         dp[j] = Math.min(dp[j], dp[j - coins[i]] + 1);
-      }
+      // }
     }
   }
   return dp[amount] !== Number.MAX_SAFE_INTEGER ? dp[amount] : -1;
