@@ -94,8 +94,8 @@ function wordBreak(s: string, wordDict: string[]): boolean {
   const dp: boolean[] = new Array(s.length + 1).fill(false);
   dp[0] = true;
   for (let i = 1; i < dp.length; i++) {
-    for (let j = 0; j <= i && !dp[i]; j++) {
-      // 这里注意一下闭合区间, 背包大小是从1开始的对应的s[0], 所以应该是左闭右闭的
+    for (let j = 0; j < i && !dp[i]; j++) {
+      // 这里注意一下闭合区间, 背包大小是从1开始的对应的s[0], 所以应该是左闭右开的
       const word = s.slice(j, i);
       dp[i] = !!~wordDict.indexOf(word) && dp[j];
     }
