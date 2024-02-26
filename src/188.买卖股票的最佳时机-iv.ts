@@ -87,7 +87,7 @@ function maxProfit(k: number, prices: number[]): number {
   for (let j = 1; j < 2 * k + 1; j += 2) dp[0][j] = -prices[0];
   for (let i = 1; i < dp.length; i++) {
     for (let j = 1; j < 2 * k + 1; j += 2) {
-      dp[i][j] = Math.max(dp[i - 1][j], dp[i - 1][j - 1] - prices[i]);
+      dp[i][j] = Math.max(dp[i - 1][j], dp[i  - 1][j - 1] - prices[i]);
       dp[i][j + 1] = Math.max(dp[i - 1][j + 1], dp[i - 1][j] + prices[i]);
     }
   }
